@@ -8,6 +8,7 @@
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
 #import <Crashlytics/Answers.h>
+#import <TwitterKit/TwitterKit.h>
 
 @interface FabricPlugin : CDVPlugin
 
@@ -47,7 +48,12 @@
 
 - (void)pluginInitialize
 {
-    [Fabric with:@[[Crashlytics class], [Answers class]]];
+
+    NSString* consumerKey = [self.commandDelegate.settings objectForKey:[@"TwitterConsumerKey" lowercaseString]];
+    NSString* consumerSecret = [self.commandDelegate.settings objectForKey:[@"TwitterConsumerSecret" lowercaseString]];
+    [[Twitter sharedInstance] startWithConsumerKey:consumerKey consumerSecret:consumerSecret];
+
+    [Fabric with:@[[Crashlytics class], [Answers class], [Twitter sharedInstance], TwitterKit]];
 }
 
 #pragma mark - Answers

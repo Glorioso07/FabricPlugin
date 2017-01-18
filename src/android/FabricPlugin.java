@@ -34,12 +34,24 @@ import java.util.Iterator;
 
 import io.fabric.sdk.android.Fabric;
 
+import com.twitter.sdk.android.core.*;
+import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.identity.TwitterLoginButton;
+
 public class FabricPlugin extends CordovaPlugin {
 	private final String pluginName = "FabricPlugin";
 
 	@Override
 	protected void pluginInitialize() {
-		Fabric.with(this.cordova.getActivity().getApplicationContext(), new Crashlytics(), new Answers());
+		Fabric.with(this.cordova.getActivity().getApplicationContext(), new Crashlytics(), new Answers(), new Twitter(new TwitterAuthConfig(getTwitterKey(), getTwitterSecret())));
+	}
+
+	private String getTwitterKey() {
+		return preferences.getString("TwitterConsumerKey", "");
+	}
+
+	private String getTwitterSecret() {
+		return preferences.getString("TwitterConsumerSecret", "");
 	}
 
 	@Override

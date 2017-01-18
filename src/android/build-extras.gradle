@@ -13,6 +13,9 @@ repositories {
 
 dependencies {
     compile 'com.crashlytics.sdk.android:crashlytics:2.5.5'
+    compile('com.twitter.sdk.android:twitter:1.4.0@aar') {
+		transitive = true
+	}
 }
 
 def getPackageName() {
