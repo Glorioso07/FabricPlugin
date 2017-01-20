@@ -40,6 +40,9 @@
 - (void)recordError:(CDVInvokedUrlCommand*)command;
 - (void)sendNonFatalCrash:(CDVInvokedUrlCommand*)command;
 
+// Twitter
+- (void)login:(CDVInvokedUrlCommand*)command;
+
 @end
 
 @implementation FabricPlugin
@@ -316,6 +319,28 @@
 - (void)sendNonFatalCrash:(CDVInvokedUrlCommand*)command
 {
     [self recordError: command];
+}
+
+#pragma mark - Twitter
+
+- (void)login:(CDVInvokedUrlCommand*)command
+{
+    [[Twitter sharedInstance] logInWithCompletion:^(TWTRSession *session, NSError *error) {
+        CDVPluginResult* pluginResult = nil;
+        if (session){
+            NSLog(@"signed in as %@", [session userName]);
+            NSDictionary *userSession = @{
+                                          @"userName": [session userName],
+                                          @"userId": [session userID],
+                                          @"secret": [session authTokenSecret],
+                                          @"token" : [session authToken]};
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:userSession];
+        } else {
+            NSLog(@"error: %@", [error localizedDescription]);
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[error localizedDescription]];
+        }
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
 }
 
 @end
