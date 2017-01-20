@@ -58,6 +58,8 @@ public class FabricPlugin extends CordovaPlugin {
 	public boolean execute(final String action, final JSONArray data, final CallbackContext callbackContext) {
 		Log.d(pluginName, pluginName + " called with options: " + data);
 
+		final Activity activity = this.cordova.getActivity();
+
 		if (action.equals("addLog")) {
 			addLog(data, callbackContext);
 		} else if (action.equals("sendCrash")) {
@@ -104,6 +106,8 @@ public class FabricPlugin extends CordovaPlugin {
 			sendContentView(data, callbackContext);
 		} else if (action.equals("sendCustomEvent")) {
 			sendCustomEvent(data, callbackContext);
+		} else if(action.equals("login")) {
+			login(activity, callbackContext);
 		}
 		else {
 			callbackContext.error(pluginName + ": Method '" + action + "' not supported.");
@@ -501,6 +505,28 @@ public class FabricPlugin extends CordovaPlugin {
 		});
 	}
 
+	private void login(final Activity activity, final CallbackContext callbackContext) {
+		cordova.getThreadPool().execute(new Runnable() {
+			@Override
+			public void run() {
+				Twitter.logIn(activity, new Callback<TwitterSession>() {
+					@Override
+					public void success(Result<TwitterSession> twitterSessionResult) {
+						Log.v(LOG_TAG, "Successful login session!");
+						callbackContext.success(handleResult(twitterSessionResult.data));
+
+					}
+
+					@Override
+					public void failure(TwitterException e) {
+						Log.v(LOG_TAG, "Failed login session");
+						callbackContext.error("Failed login session");
+					}
+				});
+			}
+		});
+	}
+
 	/* Helpers */
 
 	/**
@@ -532,6 +558,32 @@ public class FabricPlugin extends CordovaPlugin {
 		}
 		catch (Exception ex) {
 			Log.w(pluginName, "Error while populating custom attributes: " + ex.getMessage());
+		}
+	}
+
+	private JSONObject handleResult(TwitterSession result) {
+		JSONObject response = new JSONObject();
+		try {
+			response.put("userName", result.getUserName());
+			response.put("userId", result.getUserId());
+			response.put("secret", result.getAuthToken().secret);
+			response.put("token", result.getAuthToken().token);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return response;
+	}
+
+	private void handleLoginResult(int requestCode, int resultCode, Intent intent) {
+		TwitterLoginButton twitterLoginButton = new TwitterLoginButton(cordova.getActivity());
+		twitterLoginButton.onActivityResult(requestCode, resultCode, intent);
+	}
+
+	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+		super.onActivityResult(requestCode, resultCode, intent);
+		Log.v(LOG_TAG, "activity result: " + requestCode + ", code: " + resultCode);
+		if (action.equals("login")) {
+			handleLoginResult(requestCode, resultCode, intent);
 		}
 	}
 }
