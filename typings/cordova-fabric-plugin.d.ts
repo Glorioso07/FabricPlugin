@@ -264,6 +264,10 @@ declare module FabricPlugin {
         sendCustomEvent(name: string, attributes?: Attributes): void;
     }
 
+    interface Twitter {
+        login(): void;
+    }
+
     /**
      * A key/value pair of strings.
      */

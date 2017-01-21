@@ -25,6 +25,10 @@
         <clobbers target="window.fabric.Crashlytics"/>
     </js-module>
 
+    <js-module name="FabricTwitterPlugin" src="www/FabricPlugin.Twitter.js">
+        <clobbers target="window.fabric.Twitter"/>
+    </js-module>
+
     <!-- android -->
     <platform name="android">
         <config-file parent="/*" target="res/xml/config.xml">
