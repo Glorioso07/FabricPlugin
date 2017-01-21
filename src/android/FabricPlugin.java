@@ -24,7 +24,6 @@ import com.crashlytics.android.answers.SignUpEvent;
 import com.crashlytics.android.answers.StartCheckoutEvent;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
@@ -64,8 +63,6 @@ public class FabricPlugin extends CordovaPlugin {
 		Log.d(pluginName, pluginName + " called with options: " + data);
 		this.action = action;
 		final Activity activity = this.cordova.getActivity();
-		final Context context = activity.getApplicationContext();
-		cordova.setActivityResultCallback(this);
 
 		if (action.equals("addLog")) {
 			addLog(data, callbackContext);
