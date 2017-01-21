@@ -2,8 +2,6 @@ package com.sarriaroman.fabric;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
-import org.apache.cordova.CordovaInterface;
-import org.apache.cordova.CordovaWebView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,8 +46,8 @@ public class FabricPlugin extends CordovaPlugin {
 	private static final String LOG_TAG = "Twitter Connect";
 	private String action;
 
-	public void initialize(CordovaInterface cordova, CordovaWebView webView) {
-		super.initialize(cordova, webView);
+	@Override
+	protected void pluginInitialize() {
 		Fabric.with(this.cordova.getActivity().getApplicationContext(), new Crashlytics(), new Answers(), new Twitter(new TwitterAuthConfig(getTwitterKey(), getTwitterSecret())));
 	}
 
