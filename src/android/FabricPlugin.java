@@ -2,6 +2,8 @@ package com.sarriaroman.fabric;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
+import org.apache.cordova.CordovaInterface;
+import org.apache.cordova.CordovaWebView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,7 +49,8 @@ public class FabricPlugin extends CordovaPlugin {
 	private String action;
 
 	@Override
-	protected void pluginInitialize() {
+	protected void pluginInitialize(CordovaInterface cordova, CordovaWebView webView) {
+		super.initialize(cordova, webView);
 		Fabric.with(this.cordova.getActivity().getApplicationContext(), new Crashlytics(), new Answers(), new Twitter(new TwitterAuthConfig(getTwitterKey(), getTwitterSecret())));
 	}
 
@@ -65,7 +68,7 @@ public class FabricPlugin extends CordovaPlugin {
 		this.action = action;
 		final Activity activity = this.cordova.getActivity();
 		final Context context = activity.getApplicationContext();
-		this.cordova.setActivityResultCallback(this);
+		cordova.setActivityResultCallback(this);
 
 		if (action.equals("addLog")) {
 			addLog(data, callbackContext);
