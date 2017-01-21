@@ -48,8 +48,7 @@ public class FabricPlugin extends CordovaPlugin {
 	private static final String LOG_TAG = "Twitter Connect";
 	private String action;
 
-	@Override
-	protected void pluginInitialize(CordovaInterface cordova, CordovaWebView webView) {
+	public void initialize(CordovaInterface cordova, CordovaWebView webView) {
 		super.initialize(cordova, webView);
 		Fabric.with(this.cordova.getActivity().getApplicationContext(), new Crashlytics(), new Answers(), new Twitter(new TwitterAuthConfig(getTwitterKey(), getTwitterSecret())));
 	}
@@ -516,7 +515,7 @@ public class FabricPlugin extends CordovaPlugin {
 	}
 
 	private void login(final Activity activity, final CallbackContext callbackContext) {
-		this.cordova.getThreadPool().execute(new Runnable() {
+		cordova.getThreadPool().execute(new Runnable() {
 			@Override
 			public void run() {
 				Twitter.logIn(activity, new Callback<TwitterSession>() {
