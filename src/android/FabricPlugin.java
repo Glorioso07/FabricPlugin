@@ -24,7 +24,7 @@ import com.crashlytics.android.answers.SignUpEvent;
 import com.crashlytics.android.answers.StartCheckoutEvent;
 
 import android.app.Activity;
-import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 import java.lang.reflect.Method;
@@ -43,6 +43,7 @@ import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 public class FabricPlugin extends CordovaPlugin {
 	private final String pluginName = "FabricPlugin";
 	private static final String LOG_TAG = "Twitter Connect";
+	private String action;
 
 	@Override
 	protected void pluginInitialize() {
@@ -60,7 +61,7 @@ public class FabricPlugin extends CordovaPlugin {
 	@Override
 	public boolean execute(final String action, final JSONArray data, final CallbackContext callbackContext) {
 		Log.d(pluginName, pluginName + " called with options: " + data);
-
+		this.action = action;
 		final Activity activity = this.cordova.getActivity();
 
 		if (action.equals("addLog")) {
