@@ -11,6 +11,10 @@ class FabricPlugin {
         exec(null, null, this.pluginCallName(), method, parameters);
     }
 
+    execTwitter(successCallback, errorCallback, method, parameters) {
+    	exec(successCallback, errorCallback, this.pluginCallName(), method, parameters);
+    }
+
 }
 
 module.exports = new FabricPlugin();

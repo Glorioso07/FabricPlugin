@@ -11,8 +11,8 @@ var FabricTwitter = (function () {
 
     _createClass(FabricTwitter, [{
         key: 'login',
-        value: function login() {
-            window.fabric.core.execPlugin('login', []);
+        value: function login(successCallback, errorCallback) {
+            window.fabric.core.execTwitter(successCallback, errorCallback, 'login', []);
         }
     }]);
 

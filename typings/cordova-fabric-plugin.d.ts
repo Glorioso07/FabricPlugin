@@ -20,6 +20,8 @@ declare module FabricPlugin {
          * https://docs.fabric.io/ios/answers/index.html
          */
         Answers: Answers;
+
+        Twitter: Twitter;
     }
 
     /**
@@ -265,7 +267,7 @@ declare module FabricPlugin {
     }
 
     interface Twitter {
-        login(): void;
+        login(successCallback: CallbackContext, errorCallback: CallbackContext): void;
     }
 
     /**

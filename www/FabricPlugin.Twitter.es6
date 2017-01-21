@@ -2,9 +2,8 @@
 class FabricTwitter {
     constructor() {}
 
-    login() {
-        window.fabric.core.execPlugin('login', [
-        ]);
+    login(successCallback, errorCallback) {
+        window.fabric.core.execTwitter(successCallback, errorCallback, 'login', []);
     }
 }
 

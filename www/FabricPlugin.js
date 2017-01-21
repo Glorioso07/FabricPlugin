@@ -21,6 +21,11 @@ var FabricPlugin = (function () {
         value: function execPlugin(method, parameters) {
             exec(null, null, this.pluginCallName(), method, parameters);
         }
+    }, {
+        key: 'execTwitter',
+        value: function execTwitter(successCallback, errorCallback, method, parameters) {
+            exec(successCallback, errorCallback, this.pluginCallName(), method, parameters);
+        }
     }]);
 
     return FabricPlugin;

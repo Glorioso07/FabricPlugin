@@ -510,7 +510,7 @@ public class FabricPlugin extends CordovaPlugin {
 	}
 
 	private void login(final Activity activity, final CallbackContext callbackContext) {
-		cordova.getThreadPool().execute(new Runnable() {
+		this.cordova.getThreadPool().execute(new Runnable() {
 			@Override
 			public void run() {
 				Twitter.logIn(activity, new Callback<TwitterSession>() {
@@ -579,14 +579,14 @@ public class FabricPlugin extends CordovaPlugin {
 	}
 
 	private void handleLoginResult(int requestCode, int resultCode, Intent intent) {
-		TwitterLoginButton twitterLoginButton = new TwitterLoginButton(cordova.getActivity());
+		TwitterLoginButton twitterLoginButton = new TwitterLoginButton(this.cordova.getActivity());
 		twitterLoginButton.onActivityResult(requestCode, resultCode, intent);
 	}
 
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		super.onActivityResult(requestCode, resultCode, intent);
 		Log.v(LOG_TAG, "activity result: " + requestCode + ", code: " + resultCode);
-		if (action.equals("login")) {
+		if (this.action.equals("login")) {
 			handleLoginResult(requestCode, resultCode, intent);
 		}
 	}
