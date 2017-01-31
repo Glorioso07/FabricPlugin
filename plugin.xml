@@ -77,6 +77,17 @@
 
         <framework src="lib/ios/Fabric.framework" custom="true" />
         <framework src="lib/ios/Crashlytics.framework" custom="true" />
+        
+        <framework src="src/ios/TwitterKit.framework" custom="true" />
+        <framework src="src/ios/TwitterCore.framework" custom="true" />
+        <resource-file src="src/ios/TwitterKit.framework/Versions/A/Resources/TwitterKitResources.bundle" />
+        <framework src="CoreText.framework" />
+        <framework src="AddressBook.framework" />
+        <framework src="QuartzCore.framework" />
+        <framework src="Security.framework" />
+        <framework src="Accounts.framework" />
+        <framework src="Social.framework" />
+        <framework src="CoreData.framework" />
     </platform>
 
 </plugin>
